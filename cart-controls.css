@@ -1,0 +1,137 @@
+/* Cart quantity and remove controls */
+.quantity-control,
+.quantity-controls,
+.quantity-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-control button,
+.quantity-controls button,
+.quantity-selector button,
+.increase,
+.decrease,
+.increase-btn,
+.decrease-btn,
+.increment,
+.decrement,
+[data-action="increase"],
+[data-action="decrease"] {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.25rem;
+  min-height: 2.25rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background: #fff;
+  color: #1f2937;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease,
+    color 160ms ease, transform 160ms ease;
+}
+
+.quantity-control button:hover,
+.quantity-controls button:hover,
+.quantity-selector button:hover,
+.increase:hover,
+.decrease:hover,
+.increase-btn:hover,
+.decrease-btn:hover,
+.increment:hover,
+.decrement:hover,
+[data-action="increase"]:hover,
+[data-action="decrease"]:hover {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.quantity-control button:active,
+.quantity-controls button:active,
+.quantity-selector button:active,
+.increase:active,
+.decrease:active,
+.increase-btn:active,
+.decrease-btn:active,
+.increment:active,
+.decrement:active,
+[data-action="increase"]:active,
+[data-action="decrease"]:active {
+  transform: scale(0.96);
+}
+
+.quantity-control button:focus-visible,
+.quantity-controls button:focus-visible,
+.quantity-selector button:focus-visible,
+.increase:focus-visible,
+.decrease:focus-visible,
+.increase-btn:focus-visible,
+.decrease-btn:focus-visible,
+.increment:focus-visible,
+.decrement:focus-visible,
+.remove:focus-visible,
+.remove-btn:focus-visible,
+.remove-item:focus-visible,
+.delete-btn:focus-visible,
+[data-action="increase"]:focus-visible,
+[data-action="decrease"]:focus-visible,
+[data-action="remove"]:focus-visible {
+  outline: 3px solid rgb(37 99 235 / 35%);
+  outline-offset: 2px;
+}
+
+.quantity-control input,
+.quantity-controls input,
+.quantity-selector input,
+.quantity-value {
+  width: 3rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.remove,
+.remove-btn,
+.remove-item,
+.delete-btn,
+[data-action="remove"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid #fecaca;
+  border-radius: 0.5rem;
+  background: #fff;
+  color: #b91c1c;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease,
+    color 160ms ease;
+}
+
+.remove:hover,
+.remove-btn:hover,
+.remove-item:hover,
+.delete-btn:hover,
+[data-action="remove"]:hover {
+  border-color: #dc2626;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.remove:disabled,
+.remove-btn:disabled,
+.remove-item:disabled,
+.delete-btn:disabled,
+[data-action="remove"]:disabled,
+.quantity-control button:disabled,
+.quantity-controls button:disabled,
+.quantity-selector button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
