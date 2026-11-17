@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - EcomStore</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="cart-controls.css">
+    <link rel="stylesheet" href="checkout.css">
+</head>
+<body class="checkout-page">
+    <header class="checkout-header">
+        <a href="index.html" class="logo">EcomStore</a>
+        <a href="index.html" class="back-to-store">Continue shopping</a>
+    </header>
+
+    <main class="checkout-container">
+        <div class="checkout-heading">
+            <p class="eyebrow checkout-eyebrow">Almost there</p>
+            <h1>Checkout</h1>
+            <p>Enter your delivery details and review your order.</p>
+        </div>
+
+        <div id="checkoutNotice" class="checkout-notice" role="status" aria-live="polite" hidden></div>
+
+        <div id="emptyCartMessage" class="checkout-card empty-checkout" hidden>
+            <h2>Your cart is empty</h2>
+            <p>Add a product to your cart before checking out.</p>
+            <a class="primary-link" href="index.html">Browse products</a>
+        </div>
+
+        <div id="checkoutContent" class="checkout-layout">
+            <section class="checkout-card address-card">
+                <div class="card-heading">
+                    <span class="step-number">1</span>
+                    <div>
+                        <h2>Delivery address</h2>
+                        <p>Where should we deliver your order?</p>
+                    </div>
+                </div>
+
+                <form id="addressForm">
+                    <div class="form-grid">
+                        <label class="form-field">
+                            <span>Full name</span>
+                            <input name="fullName" type="text" autocomplete="name" required>
+                        </label>
+                        <label class="form-field">
+                            <span>Phone number</span>
+                            <input name="phone" type="tel" autocomplete="tel" inputmode="tel" required>
+                        </label>
+                        <label class="form-field form-field-wide">
+                            <span>Email address</span>
+                            <input name="email" type="email" autocomplete="email" required>
+                        </label>
+                        <label class="form-field form-field-wide">
+                            <span>Street address</span>
+                            <textarea name="street" autocomplete="street-address" rows="3" required></textarea>
+                        </label>
+                        <label class="form-field">
+                            <span>City</span>
+                            <input name="city" type="text" autocomplete="address-level2" required>
+                        </label>
+                        <label class="form-field">
+                            <span>State</span>
+                            <input name="state" type="text" autocomplete="address-level1" required>
+                        </label>
+                        <label class="form-field">
+                            <span>PIN code</span>
+                            <input name="postalCode" type="text" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" title="Enter a 6-digit PIN code" required>
+                        </label>
+                    </div>
+
+                    <button id="proceedPayment" class="primary-button proceed-button" type="submit">
+                        Proceed to Payment
+                    </button>
+                </form>
+            </section>
+
+            <aside class="checkout-card order-card">
+                <div class="card-heading order-heading">
+                    <div>
+                        <h2>Your order</h2>
+                        <p id="itemCountLabel">Items in your cart</p>
+                    </div>
+                </div>
+
+                <div id="checkoutItems" class="checkout-items"></div>
+
+                <div class="coupon-box">
+                    <label for="couponInput">Coupon code</label>
+                    <div class="coupon-entry">
+                        <input id="couponInput" type="text" placeholder="Enter code" autocomplete="off">
+                        <button id="applyCoupon" class="secondary-button" type="button">Apply</button>
+                    </div>
+                    <p class="coupon-hint">Try <strong>SAVE10</strong> or <strong>WELCOME5</strong>.</p>
+                    <p id="couponFeedback" class="coupon-feedback" role="status" aria-live="polite"></p>
+                </div>
+
+                <div class="summary-lines">
+                    <div><span>Subtotal</span><strong id="subtotalValue">₹0</strong></div>
+                    <div id="discountRow" class="discount-row" hidden><span>Discount</span><strong id="discountValue">−₹0</strong></div>
+                    <div><span>Delivery</span><strong class="free-delivery">Free</strong></div>
+                    <div class="summary-total"><span>Total</span><strong id="totalValue">₹0</strong></div>
+                </div>
+                <p class="secure-note">Your cart and address are saved in this browser.</p>
+            </aside>
+        </div>
+
+        <section id="paymentStep" class="checkout-card payment-card" hidden>
+            <div class="card-heading">
+                <span class="step-number">2</span>
+                <div>
+                    <h2>Payment</h2>
+                    <p>Choose how you would like to pay.</p>
+                </div>
+            </div>
+
+            <fieldset id="paymentMethods" class="payment-methods">
+                <legend class="visually-hidden">Payment method</legend>
+                <label class="payment-option">
+                    <input type="radio" name="paymentMethod" value="upi-card">
+                    <span><strong>UPI / Credit or debit card</strong><small>Online payment</small></span>
+                </label>
+                <label class="payment-option">
+                    <input type="radio" name="paymentMethod" value="cod">
+                    <span><strong>Cash on delivery</strong><small>Pay when your order arrives</small></span>
+                </label>
+            </fieldset>
+
+            <p class="payment-disclaimer">Demo checkout: payments and order placement need a connected payment and order service.</p>
+            <button id="confirmPayment" class="primary-button" type="button">Continue</button>
+        </section>
+    </main>
+
+    <footer class="footer checkout-footer">
+        <p>© 2026 EcomStore</p>
+    </footer>
+
+    <script src="checkout.js"></script>
+</body>
+</html>

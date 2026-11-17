@@ -24,8 +24,16 @@
             </div>
 
             <h3 id="cartTotal">Total: ₹0</h3>
-            <button id="clearCart">Clear Cart</button>
+            <div class="cart-actions">
+                <button id="clearCart" type="button">Clear Cart</button>
+                <button id="checkoutBtn" class="checkout-link" type="button">Proceed to Checkout</button>
+            </div>
         </div>
+    </div>
+
+    <div id="cartToast" class="cart-toast" role="status" aria-live="polite" aria-atomic="true">
+        <span class="cart-toast-icon" aria-hidden="true">✓</span>
+        <span id="cartToastMessage"></span>
     </div>
 
     <!-- Product Details Model -->

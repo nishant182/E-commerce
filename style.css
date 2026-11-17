@@ -135,6 +135,64 @@ header {
     transform: translateY(-2px);
 }
 
+.cart-toast {
+    position: fixed;
+    top: 96px;
+    right: 24px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: max-content;
+    max-width: min(420px, calc(100vw - 32px));
+    padding: 14px 18px;
+    border: 1px solid #a7f3d0;
+    border-left: 4px solid var(--primary);
+    border-radius: 12px;
+    background: var(--white);
+    color: #065f46;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.14);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+    pointer-events: none;
+}
+
+.cart-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.cart-toast-icon {
+    display: grid;
+    flex: 0 0 26px;
+    width: 26px;
+    height: 26px;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    font-weight: 700;
+}
+
+@media (max-width: 520px) {
+    .cart-toast {
+        top: 88px;
+        right: 16px;
+        left: 16px;
+        width: auto;
+        max-width: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cart-toast {
+        transition: none;
+    }
+}
+
 #cartCount {
     display: inline-flex;
     align-items: center;
@@ -929,7 +987,7 @@ a:focus-visible {
 }
 
 #clearCart {
-    width: 100%;
+    flex: 1;
     margin-top: 15px;
     padding: 12px;
     border: none;
@@ -944,6 +1002,47 @@ a:focus-visible {
 
 #clearCart:hover {
     background: #b91c1c;
+}
+
+.cart-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.checkout-link {
+    display: inline-flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    padding: 12px;
+    border: none;
+    border-radius: 9px;
+    background: var(--primary);
+    color: white;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 180ms ease, transform 180ms ease;
+}
+
+.checkout-link:hover:not(:disabled) {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.checkout-link:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+@media (max-width: 420px) {
+    .cart-actions {
+        flex-direction: column;
+        gap: 0;
+    }
 }
 
 /* HIDDEN */

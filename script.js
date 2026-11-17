@@ -19,7 +19,7 @@ const closeModal = document.getElementById("closeModel");
 
 // Step 2: Initial Project Data
 
-const products = [
+const defaultProducts = [
     { id: 1, name: "Wireless Headphones", price: 1299, Categories: "electronics", rating: 4.5, image: "https://m.media-amazon.com/images/I/31818K7ii3L._SY300_SX300_QL70_FMwebp_.jpg" },
     { id: 2, name: "Bluetooth Speaker", price: 899, Categories: "electronics", rating: 4.2, image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400" },
     { id: 3, name: "Smart Watch", price: 1599, Categories: "electronics", rating: 4.3, image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" },
@@ -31,6 +31,45 @@ const products = [
     { id: 9, name: "Table Lamp", price: 799, Categories: "home & living", rating: 4.2, image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400" },
     { id: 10, name: "Coffee Mug", price: 299, Categories: "home & living", rating: 4.0, image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400" }
 ];
+
+const productsStorageKey = "ecomStoreProducts";
+
+function saveProducts(productList) {
+    try {
+        localStorage.setItem(productsStorageKey, JSON.stringify(productList));
+    } catch (error) {
+        console.error("Could not save products to localStorage:", error);
+    }
+}
+
+function loadProducts() {
+    try {
+        const savedProducts = JSON.parse(localStorage.getItem(productsStorageKey) || "null");
+        const hasValidProducts = Array.isArray(savedProducts)
+            && savedProducts.length > 0
+            && savedProducts.every(product =>
+                product
+                && Number.isFinite(Number(product.id))
+                && typeof product.name === "string"
+                && Number.isFinite(Number(product.price))
+                && typeof product.Categories === "string"
+                && Number.isFinite(Number(product.rating))
+                && typeof product.image === "string"
+            );
+
+        if (hasValidProducts) {
+            return savedProducts;
+        }
+    } catch (error) {
+        console.warn("Could not load products from localStorage; using defaults:", error);
+    }
+
+    const initialProducts = defaultProducts.map(product => ({ ...product }));
+    saveProducts(initialProducts);
+    return initialProducts;
+}
+
+const products = loadProducts();
 
 
 // Step 3: Cart Data
@@ -359,6 +398,20 @@ const closeCart = document.getElementById("closeCart");
 const cartItemsContainer = document.getElementById("cartItems");
 const cartTotal = document.getElementById("cartTotal");
 const clearCartButton = document.getElementById("clearCart");
+const checkoutButton = document.getElementById("checkoutBtn");
+const cartToast = document.getElementById("cartToast");
+const cartToastMessage = document.getElementById("cartToastMessage");
+let cartToastTimeout;
+
+function showCartToast(message) {
+    cartToastMessage.textContent = message;
+    cartToast.classList.add("show");
+
+    window.clearTimeout(cartToastTimeout);
+    cartToastTimeout = window.setTimeout(() => {
+        cartToast.classList.remove("show");
+    }, 2800);
+}
 
 
 // Add Product To Cart
@@ -385,6 +438,7 @@ function addTocart(productId) {
     }
 
     updateCart();
+    showCartToast(`${product.name} has been added to your cart successfully.`);
 }
 
 
@@ -404,6 +458,7 @@ function updateCart() {
     );
 
     cartCount.textContent = totalItems;
+    checkoutButton.disabled = cart.length === 0;
 
     cartItemsContainer.innerHTML = "";
 
@@ -478,6 +533,12 @@ cartButton.addEventListener("click", function() {
     cartModal.classList.remove("hidden");
 
     updateCart();
+});
+
+checkoutButton.addEventListener("click", function() {
+    if (cart.length === 0) return;
+
+    window.location.href = "checkout.html";
 });
 
 
