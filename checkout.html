@@ -3,195 +3,86 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f7f4">
-  <title>Checkout | Your Store</title>
-  <style>
-    :root { color-scheme: light; --ink: #20231f; --muted: #747a72; --line: #e6e8e2; --paper: #fff; --wash: #f7f7f4; --green: #315e48; --green-dark: #254735; }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--wash); color: var(--ink); font: 15px/1.5 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    button, input, select { font: inherit; }
-    a { color: inherit; }
-    .topbar { height: 76px; display: flex; align-items: center; justify-content: space-between; padding: 0 max(6vw, 24px); border-bottom: 1px solid var(--line); background: rgba(255,255,255,.8); }
-    .brand { font-size: 18px; font-weight: 750; letter-spacing: -.04em; text-decoration: none; }
-    .secure { color: var(--muted); font-size: 13px; display: flex; align-items: center; gap: 8px; }
-    .secure svg { width: 16px; height: 16px; color: var(--green); }
-    main { width: min(1120px, calc(100% - 40px)); margin: 42px auto 80px; }
-    .heading { margin-bottom: 28px; }
-    .eyebrow { margin: 0 0 7px; color: var(--green); font-size: 11px; font-weight: 750; letter-spacing: .15em; text-transform: uppercase; }
-    h1 { margin: 0; font-size: clamp(30px, 4vw, 42px); letter-spacing: -.055em; line-height: 1.1; }
-    .subtitle { color: var(--muted); margin: 10px 0 0; }
-    .layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(300px, .8fr); gap: 24px; align-items: start; }
-    .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 26px; box-shadow: 0 8px 30px rgba(28,40,31,.035); }
-    .form-panel { display: grid; gap: 28px; }
-    .section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 16px; }
-    h2 { margin: 0; font-size: 17px; letter-spacing: -.02em; }
-    .step { color: #92988f; font-size: 12px; font-weight: 650; }
-    .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-    .field { display: grid; gap: 6px; }
-    .field.wide { grid-column: 1 / -1; }
-    label { font-size: 12px; font-weight: 650; color: #484e48; }
-    input, select { width: 100%; min-width: 0; height: 45px; border: 1px solid #dfe3dc; border-radius: 8px; padding: 0 12px; background: #fff; color: var(--ink); outline: none; transition: border-color .15s, box-shadow .15s; }
-    input::placeholder { color: #a4aaa2; }
-    input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(49,94,72,.11); }
-    .card-box { border: 1px solid #dfe3dc; border-radius: 11px; overflow: hidden; }
-    .card-caption { padding: 11px 13px; background: #f9faf7; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; color: #505850; font-size: 12px; font-weight: 650; }
-    .cards { display: flex; gap: 5px; color: #69746b; font-size: 10px; font-weight: 800; letter-spacing: .04em; }
-    .card-fields { padding: 13px; display: grid; gap: 12px; }
-    .card-fields .fields { gap: 12px; }
-    .demo-note { margin: 12px 0 0; padding: 10px 12px; border-radius: 8px; background: #f1f6f1; color: #45604e; font-size: 12px; }
-    .summary { position: sticky; top: 20px; }
-    .summary h2 { margin-bottom: 20px; }
-    .items { display: grid; gap: 15px; }
-    .item { display: grid; grid-template-columns: 54px 1fr auto; gap: 12px; align-items: center; }
-    .thumb { width: 54px; height: 58px; display: grid; place-items: center; border-radius: 9px; background: #edf1eb; color: #54735d; font-size: 21px; position: relative; }
-    .count { position: absolute; top: -6px; right: -6px; display: grid; place-items: center; width: 19px; height: 19px; border-radius: 50%; color: white; background: #68766a; font-size: 10px; font-weight: 700; }
-    .item-name { font-size: 13px; font-weight: 680; }
-    .item-meta { color: var(--muted); font-size: 12px; margin-top: 2px; }
-    .item-price { font-size: 13px; font-weight: 650; white-space: nowrap; }
-    .rule { border: 0; border-top: 1px solid var(--line); margin: 20px 0; }
-    .totals { display: grid; gap: 11px; }
-    .total-row { display: flex; justify-content: space-between; gap: 12px; color: #666e66; font-size: 13px; }
-    .total-row strong { color: var(--ink); font-weight: 600; }
-    .grand { color: var(--ink); font-size: 16px; font-weight: 750; }
-    .grand strong { font-size: 20px; letter-spacing: -.03em; }
-    .place-order { width: 100%; min-height: 50px; border: 0; border-radius: 9px; margin-top: 22px; background: var(--green); color: #fff; font-weight: 700; cursor: pointer; transition: background .15s, transform .15s; }
-    .place-order:hover { background: var(--green-dark); transform: translateY(-1px); }
-    .place-order:focus-visible, .text-link:focus-visible, .close:focus-visible { outline: 3px solid #9ab8a3; outline-offset: 3px; }
-    .terms { margin: 11px 0 0; color: #858b83; text-align: center; font-size: 11px; }
-    .text-link { color: var(--green); font-size: 12px; font-weight: 650; text-decoration: none; }
-    .back-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; color: #647067; font-size: 12px; text-decoration: none; }
-    .back-link:hover, .text-link:hover { text-decoration: underline; }
-    .empty { color: var(--muted); font-size: 13px; padding: 12px 0; }
-    .overlay { position: fixed; inset: 0; z-index: 10; display: none; place-items: center; padding: 20px; background: rgba(22,29,24,.52); backdrop-filter: blur(4px); }
-    .overlay.open { display: grid; }
-    .success { width: min(440px, 100%); position: relative; padding: 36px; border-radius: 18px; background: white; box-shadow: 0 24px 80px rgba(0,0,0,.2); text-align: center; animation: arrive .22s ease-out; }
-    @keyframes arrive { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: none; } }
-    .success-mark { width: 58px; height: 58px; display: grid; place-items: center; margin: 0 auto 17px; border-radius: 50%; background: #eaf3ec; color: var(--green); font-size: 27px; }
-    .success h2 { font-size: 25px; letter-spacing: -.04em; }
-    .success p { color: var(--muted); font-size: 13px; margin: 9px 0; }
-    .order-number { display: inline-block; margin: 10px 0 18px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 7px; color: #4a564c; font-size: 12px; font-weight: 700; letter-spacing: .04em; }
-    .success .place-order { margin-top: 0; }
-    .close { position: absolute; top: 14px; right: 15px; border: 0; background: transparent; color: #767d75; font-size: 23px; line-height: 1; cursor: pointer; }
-    @media (max-width: 760px) { .topbar { height: 64px; } main { margin-top: 30px; width: min(560px, calc(100% - 28px)); } .layout { grid-template-columns: 1fr; } .summary { position: static; order: -1; } .panel { padding: 21px; } }
-    @media (max-width: 420px) { .fields { grid-template-columns: 1fr; } .field.wide { grid-column: auto; } .secure span { display: none; } .success { padding: 32px 23px; } }
-  </style>
+  <meta name="theme-color" content="#080D18">
+  <meta name="description" content="Review your order and finish checkout with EcomStore.">
+  <title>Checkout | EcomStore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="checkout.css">
 </head>
-<body>
-  <header class="topbar">
-    <a class="brand" href="index.html" aria-label="Your Store home">YOUR STORE<span aria-hidden="true">.</span></a>
-    <div class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg><span>Secure checkout</span></div>
+<body class="checkout-page">
+  <header class="checkout-topbar">
+    <a class="logo" href="index.html" aria-label="EcomStore home"><span class="logo-mark" aria-hidden="true">E</span><span>Ecom<span class="logo-accent">Store</span></span></a>
+    <div class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg><span>Demo checkout · no payment</span></div>
   </header>
-  <main>
-    <div class="heading"><p class="eyebrow">Almost yours</p><h1>Checkout</h1><p class="subtitle">Add your details to complete this demo order.</p></div>
-    <div class="layout">
-      <form id="checkout-form" class="panel form-panel">
-        <section>
-          <div class="section-head"><h2>Contact information</h2><span class="step">01</span></div>
-          <div class="fields">
-            <div class="field wide"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
-            <div class="field"><label for="first-name">First name</label><input id="first-name" name="firstName" autocomplete="given-name" placeholder="Alex" required></div>
-            <div class="field"><label for="last-name">Last name</label><input id="last-name" name="lastName" autocomplete="family-name" placeholder="Morgan" required></div>
+  <main class="checkout-main">
+    <div class="checkout-heading"><p class="checkout-eyebrow">Almost yours</p><h1>Checkout</h1><p class="checkout-subtitle">Review your order and add delivery details.</p></div>
+    <div class="checkout-layout">
+      <form id="checkout-form" class="checkout-card checkout-form-panel">
+        <section aria-labelledby="contact-title">
+          <div class="checkout-section-head"><h2 id="contact-title">Contact information</h2><span class="checkout-step">01</span></div>
+          <div class="checkout-fields">
+            <div class="checkout-field checkout-field-wide"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+            <div class="checkout-field"><label for="first-name">First name</label><input id="first-name" name="firstName" autocomplete="given-name" placeholder="Alex" required></div>
+            <div class="checkout-field"><label for="last-name">Last name</label><input id="last-name" name="lastName" autocomplete="family-name" placeholder="Morgan" required></div>
           </div>
         </section>
-        <section>
-          <div class="section-head"><h2>Shipping address</h2><span class="step">02</span></div>
-          <div class="fields">
-            <div class="field wide"><label for="address">Street address</label><input id="address" name="address" autocomplete="street-address" placeholder="123 Market Street" required></div>
-            <div class="field"><label for="city">City</label><input id="city" name="city" autocomplete="address-level2" placeholder="San Francisco" required></div>
-            <div class="field"><label for="region">State / region</label><input id="region" name="region" autocomplete="address-level1" placeholder="California" required></div>
-            <div class="field"><label for="postal">Postal code</label><input id="postal" name="postal" autocomplete="postal-code" placeholder="94103" required></div>
-            <div class="field"><label for="country">Country</label><select id="country" name="country" autocomplete="country-name" required><option value="">Select country</option><option>United States</option><option>Canada</option><option>United Kingdom</option><option>India</option><option>Australia</option></select></div>
+        <section aria-labelledby="shipping-title">
+          <div class="checkout-section-head"><h2 id="shipping-title">Shipping address</h2><span class="checkout-step">02</span></div>
+          <div class="checkout-fields">
+            <div class="checkout-field checkout-field-wide"><label for="address">Street address</label><input id="address" name="address" autocomplete="street-address" placeholder="123 Market Street" required></div>
+            <div class="checkout-field"><label for="city">City</label><input id="city" name="city" autocomplete="address-level2" placeholder="Mumbai" required></div>
+            <div class="checkout-field"><label for="region">State / region</label><input id="region" name="region" autocomplete="address-level1" placeholder="Maharashtra" required></div>
+            <div class="checkout-field"><label for="postal">Postal code</label><input id="postal" name="postal" autocomplete="postal-code" placeholder="400001" required></div>
+            <div class="checkout-field"><label for="country">Country</label><select id="country" name="country" autocomplete="country-name" required><option value="">Select country</option><option>India</option><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Australia</option></select></div>
           </div>
         </section>
-        <section>
-          <div class="section-head"><h2>Payment</h2><span class="step">03</span></div>
-          <div class="card-box">
-            <div class="card-caption"><span>Credit or debit card</span><span class="cards" aria-label="Visa and Mastercard">VISA&nbsp; MC</span></div>
-            <div class="card-fields">
-              <div class="field"><label for="card-number">Card number</label><input id="card-number" name="cardNumber" inputmode="numeric" autocomplete="cc-number" value="4242 4242 4242 4242" required></div>
-              <div class="fields">
-                <div class="field"><label for="expiry">Expiration date</label><input id="expiry" name="expiry" autocomplete="cc-exp" value="12 / 30" required></div>
-                <div class="field"><label for="cvc">Security code</label><input id="cvc" name="cvc" inputmode="numeric" autocomplete="cc-csc" value="123" required></div>
+        <section aria-labelledby="payment-title">
+          <div class="checkout-section-head"><h2 id="payment-title">Payment</h2><span class="checkout-step">03</span></div>
+          <div class="checkout-card-box">
+            <div class="checkout-card-caption"><span>Credit or debit card</span><span class="checkout-card-brands" aria-label="Visa and Mastercard">VISA&nbsp;&nbsp; MC</span></div>
+            <div class="checkout-card-fields">
+              <div class="checkout-field"><label for="card-number">Card number</label><input id="card-number" name="cardNumber" inputmode="numeric" autocomplete="cc-number" value="4242 4242 4242 4242" required></div>
+              <div class="checkout-fields checkout-card-expiry">
+                <div class="checkout-field"><label for="expiry">Expiration date</label><input id="expiry" name="expiry" autocomplete="cc-exp" value="12 / 30" required></div>
+                <div class="checkout-field"><label for="cvc">Security code</label><input id="cvc" name="cvc" inputmode="numeric" autocomplete="cc-csc" value="123" required></div>
               </div>
             </div>
           </div>
-          <p class="demo-note">Demo checkout only. The card details above are placeholders; nothing is charged or sent to a payment provider.</p>
+          <p class="checkout-demo-note">Demo checkout only. These are placeholder card details; nothing is charged or sent to a payment provider.</p>
         </section>
       </form>
-      <aside class="panel summary" aria-labelledby="summary-title">
+      <aside class="checkout-card checkout-summary" aria-labelledby="summary-title">
         <h2 id="summary-title">Order summary</h2>
-        <div id="items" class="items" aria-live="polite"></div>
-        <hr class="rule">
-        <div class="totals">
-          <div class="total-row"><span>Subtotal</span><strong id="subtotal">$0.00</strong></div>
-          <div class="total-row"><span>Shipping</span><strong id="shipping">Free</strong></div>
-          <div class="total-row"><span>Estimated tax</span><strong id="tax">$0.00</strong></div>
-          <hr class="rule" style="margin:5px 0 2px">
-          <div class="total-row grand"><span>Total</span><strong id="total">$0.00</strong></div>
+        <div class="checkout-items" id="items" aria-live="polite"></div>
+        <p class="checkout-empty-message" id="empty-cart-message" hidden>Your cart is empty. Add an item before continuing.</p>
+        <hr class="checkout-rule">
+        <div class="checkout-totals">
+          <div class="checkout-total-row"><span>Subtotal</span><strong id="subtotal">₹0</strong></div>
+          <div class="checkout-total-row"><span>Shipping</span><strong id="shipping">Free</strong></div>
+          <div class="checkout-total-row"><span>Estimated tax</span><strong id="tax">₹0</strong></div>
+          <hr class="checkout-rule checkout-rule-short">
+          <div class="checkout-total-row checkout-grand"><span>Total</span><strong id="total">₹0</strong></div>
         </div>
-        <button class="place-order" type="submit" form="checkout-form">Place demo order</button>
-        <p class="terms">By placing your order, you agree to our store terms.</p>
-        <a class="back-link" href="index.html"><span aria-hidden="true">←</span> Continue shopping</a>
+        <button class="checkout-place-order" id="place-order" type="submit" form="checkout-form" disabled>Place demo order</button>
+        <p class="checkout-terms">This demo checkout does not process a real payment.</p>
+        <a class="checkout-back-link" href="index.html"><span aria-hidden="true">←</span> Continue shopping</a>
       </aside>
     </div>
   </main>
-  <div id="success-overlay" class="overlay" role="presentation">
-    <section class="success" role="dialog" aria-modal="true" aria-labelledby="success-title" aria-describedby="success-copy">
-      <button class="close" id="close-success" type="button" aria-label="Close confirmation">×</button>
-      <div class="success-mark" aria-hidden="true">✓</div>
-      <p class="eyebrow">Order confirmed</p>
+  <div id="success-overlay" class="checkout-overlay" role="presentation">
+    <section class="checkout-success" role="dialog" aria-modal="true" aria-labelledby="success-title" aria-describedby="success-copy">
+      <button class="checkout-success-close" id="close-success" type="button" aria-label="Close confirmation">×</button>
+      <div class="checkout-success-mark" aria-hidden="true">✓</div>
+      <p class="checkout-eyebrow">Order confirmed</p>
       <h2 id="success-title">Thanks for your order!</h2>
       <p id="success-copy">Your demo order is in. This checkout does not process a real payment.</p>
-      <div class="order-number" id="order-number"></div>
-      <button class="place-order" id="continue-button" type="button">Continue shopping</button>
+      <div class="checkout-order-number" id="order-number"></div>
+      <button class="checkout-place-order" id="continue-button" type="button">Continue shopping</button>
     </section>
   </div>
-  <script>
-    (() => {
-      const money = value => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
-      const getCart = () => {
-        for (const key of ['cart', 'cartItems', 'shoppingCart', 'ecommerceCart']) {
-          try {
-            const raw = localStorage.getItem(key);
-            if (!raw) continue;
-            const parsed = JSON.parse(raw);
-            const rows = Array.isArray(parsed) ? parsed : (parsed && (parsed.items || parsed.products));
-            if (Array.isArray(rows) && rows.length) return rows.map(item => ({
-              name: item.name || item.title || item.productName || 'Store item',
-              price: Number(item.price ?? item.unitPrice ?? 0),
-              quantity: Math.max(1, Number(item.quantity ?? item.qty ?? 1)),
-              image: item.image || item.imageUrl || ''
-            })).filter(item => Number.isFinite(item.price) && item.price >= 0);
-          } catch (_) { /* Ignore unrelated or invalid local storage values. */ }
-        }
-        return [{ name: 'Sample item', price: 48, quantity: 1, demo: true }];
-      };
-      const cart = getCart();
-      const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-      const tax = subtotal * 0.08;
-      document.getElementById('items').innerHTML = cart.map(item => {
-        const thumb = item.image ? `<img src="${String(item.image).replaceAll('"', '&quot;')}" alt="" style="width:54px;height:58px;object-fit:cover;border-radius:9px">` : '<span aria-hidden="true">✳</span>';
-        return `<div class="item"><div class="thumb">${thumb}<span class="count">${item.quantity}</span></div><div><div class="item-name">${String(item.name).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}</div><div class="item-meta">${item.demo ? 'Preview item · demo' : `Qty ${item.quantity}`}</div></div><div class="item-price">${money(item.price * item.quantity)}</div></div>`;
-      }).join('');
-      document.getElementById('subtotal').textContent = money(subtotal);
-      document.getElementById('tax').textContent = money(tax);
-      document.getElementById('total').textContent = money(subtotal + tax);
-
-      const form = document.getElementById('checkout-form');
-      const overlay = document.getElementById('success-overlay');
-      const close = () => { overlay.classList.remove('open'); document.getElementById('close-success').focus(); };
-      form.addEventListener('submit', event => {
-        event.preventDefault();
-        if (!form.reportValidity()) return;
-        document.getElementById('order-number').textContent = `ORDER #DEMO-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
-        overlay.classList.add('open');
-        document.getElementById('close-success').focus();
-      });
-      document.getElementById('close-success').addEventListener('click', close);
-      document.getElementById('continue-button').addEventListener('click', () => { window.location.href = 'index.html'; });
-      overlay.addEventListener('click', event => { if (event.target === overlay) close(); });
-      document.addEventListener('keydown', event => { if (event.key === 'Escape' && overlay.classList.contains('open')) close(); });
-    })();
-  </script>
+  <script src="checkout.js"></script>
 </body>
 </html>
